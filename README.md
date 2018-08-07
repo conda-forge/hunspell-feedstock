@@ -17,14 +17,16 @@ memoQ, Opera and SDL Trados.
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/hunspell-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/hunspell-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/hunspell-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/hunspell-feedstock)
-Windows: ![](https://cdn.rawgit.com/conda-forge/conda-smithy/90845bba35bec53edac7a16638aa4d77217a3713/conda_smithy/static/disabled.svg)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/hunspell-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/hunspell-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/hunspell-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/hunspell-feedstock)
+![Windows disabled](https://img.shields.io/badge/Windows-disabled-lightgrey.svg)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/hunspell/badges/version.svg)](https://anaconda.org/conda-forge/hunspell)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/hunspell/badges/downloads.svg)](https://anaconda.org/conda-forge/hunspell)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-hunspell-green.svg)](https://anaconda.org/conda-forge/hunspell) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/hunspell.svg)](https://anaconda.org/conda-forge/hunspell) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/hunspell.svg)](https://anaconda.org/conda-forge/hunspell) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/hunspell.svg)](https://anaconda.org/conda-forge/hunspell) |
 
 Installing hunspell
 ===================
