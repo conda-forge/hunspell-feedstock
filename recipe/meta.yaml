@@ -12,23 +12,26 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win]
   has_prefix_files:
     - bin/hunspell
 
 requirements:
   build:
-    - toolchain3
     - autoconf
     - automake
     - libtool
     - make
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - toolchain3
     - gettext
-    - readline 6.2*
+    - readline
   run:
     - gettext
-    - readline 6.2*
+    - readline
 
 test:
   commands:
