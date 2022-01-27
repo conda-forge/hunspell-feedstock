@@ -1,55 +1,61 @@
-{% set name = "hunspell" %}
 {% set version = "1.7.0" %}
-{% set sha256 = "bb27b86eb910a8285407cf3ca33b62643a02798cf2eef468c0a74f6c3ee6bc8a" %}
 
 package:
-  name: {{ name|lower }}
+  name: hunspell
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://github.com/hunspell/hunspell/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: bb27b86eb910a8285407cf3ca33b62643a02798cf2eef468c0a74f6c3ee6bc8a
 
 build:
-  number: 1001
-  skip: True  # [win]
-  has_prefix_files:
-    - bin/hunspell
+  number: 1002
 
 requirements:
   build:
-    - autoconf
-    - automake
-    - libtool
-    - make
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - autoconf  # [unix]
+    - automake  # [unix]
+    - libtool  # [unix]
+    - make  # [unix]
+    - m2-autoconf  # [win]
+    - m2-automake-wrapper  # [win]
+    - m2-bash  # [win]
+    - m2-libtool  # [win]
+    - m2-make  # [win]
   host:
-    - gettext
-    - readline
+    - gettext  # [unix]
+    - readline  # [unix]
+    - m2-ncurses  # [win]
+    - m2-libreadline  # [win]
+    - libiconv  # [win]
   run:
-    - gettext
-    - readline
+    - gettext  # [unix]
+    - readline  # [unix]
+    - m2-ncurses  # [win]
+    - m2-libreadline  # [win]
+    - libiconv  # [win]
 
 test:
   commands:
     - hunspell --help
 
 about:
-  home: http://hunspell.github.io/
-  license: MPL 1.1/GPL 2.0/LGPL 2.1
+  home: https://hunspell.github.io
+  license: MPL 1.1 OR GPL 2.0 OR LGPL 2.1
   license_family: GPL
   license_file: COPYING
-  summary: 'The most popular spellchecking library.'
+  summary: The most popular spellchecking library.
   description: |
     Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird,
     Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign,
     memoQ, Opera and SDL Trados.
-  doc_url: http://hunspell.github.io/
+  doc_url: https://hunspell.github.io
   dev_url: https://github.com/hunspell/hunspell
 
 extra:
   recipe-maintainers:
     - scopatz
     - asmeurer
+    - bollwyvl
