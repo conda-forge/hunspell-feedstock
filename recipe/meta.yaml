@@ -27,6 +27,7 @@ requirements:
     - m2-m4  # [win]
     - m2-make  # [win]
     - m2-sed  # [win]
+    - mingwpy  # [win]
   host:
     - gettext  # [unix]
     - readline  # [unix]
