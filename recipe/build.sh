@@ -1,5 +1,5 @@
 autoreconf -vfi
-./configure --prefix=$PREFIX --with-readine --with-ui
+./configure --prefix=$PREFIX --with-readline --with-ui
 make
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
 make check
