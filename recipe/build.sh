@@ -1,19 +1,23 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+# Add hunspell dictionary paths relative to PREFIX. We have to do this here so
+# that $PREFIX gets expanded into the patch.
+sed "s;\$CONDA_PREFIX;${PREFIX};"\
+    < "${RECIPE_DIR}/0000-dictionary-search-path.patch" \
+    | patch -p1
+
 autoreconf -vfi
-./configure --prefix=$PREFIX --with-readline --with-ui
-make
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-make check
+
+./configure \
+    --prefix="${PREFIX}" \
+    --with-readline \
+    --with-ui
+
+make "-j${CPU_COUNT}"
+
+if [[ "${target_platform}" == "${build_platform}" ]]; then
+    make check
 fi
+
 make install
-mv $PREFIX/bin/hunspell $PREFIX/bin/.hunspell
-
-# We have to make a wrapper to add a spelling dictionary path to hunspell,
-# since none of the default ones are relative to the binary (i.e., can be
-# installed as a conda package)
-cat <<EOF > $PREFIX/bin/hunspell
-#!/bin/sh
-export DICPATH='$PREFIX/share/hunspell_dictionaries'
-$PREFIX/bin/.hunspell "\$@"
-EOF
-
-chmod a+x $PREFIX/bin/hunspell

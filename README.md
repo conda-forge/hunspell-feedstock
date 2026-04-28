@@ -5,7 +5,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/hunspell-feedst
 
 Home: http://hunspell.github.io/
 
-Package license: MPL 1.1/GPL 2.0/LGPL 2.1
+Package license: MPL-1.1 OR GPL-2.0-or-later OR LGPL-2.1-or-later
 
 Summary: The most popular spellchecking library.
 
@@ -16,7 +16,6 @@ Documentation: http://hunspell.github.io/
 Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird,
 Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign,
 memoQ, Opera and SDL Trados.
-
 
 Current build status
 ====================
@@ -40,6 +39,20 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=428&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/hunspell-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_aarch64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=428&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/hunspell-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_ppc64le</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=428&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/hunspell-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_" alt="variant">
                 </a>
               </td>
             </tr><tr>
@@ -186,5 +199,6 @@ Feedstock Maintainers
 =====================
 
 * [@asmeurer](https://github.com/asmeurer/)
+* [@bollwyvl](https://github.com/bollwyvl/)
 * [@scopatz](https://github.com/scopatz/)
 

@@ -1,0 +1,12 @@
+diff --git a/src/tools/hunspell.cxx b/src/tools/hunspell.cxx
+--- a/src/tools/hunspell.cxx
++++ b/src/tools/hunspell.cxx
+@@ -116,6 +116,8 @@
+ #include "../parsers/odfparser.hxx"
+
+ #define LIBDIR                \
++  "$CONDA_PREFIX/share/hunspell:" \
++  "$CONDA_PREFIX/share/hunspell_dictionaries:" \
+   "/usr/share/hunspell:"      \
+   "/usr/share/myspell:"       \
+   "/usr/share/myspell/dicts:" \
