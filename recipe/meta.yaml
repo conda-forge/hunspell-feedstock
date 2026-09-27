@@ -1,6 +1,6 @@
 {% set name = "hunspell" %}
-{% set version = "1.7.2" %}
-{% set sha256 = "69fa312d3586c988789266eaf7ffc9861d9f6396c31fc930a014d551b59bbd6e" %}
+{% set version = "1.7.4" %}
+{% set sha256 = "57bd9927cd1ee691cb96b244b7532dd941edeab126482e23b970a6335e95f287" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   has_prefix_files:
     - bin/hunspell
@@ -24,6 +24,7 @@ requirements:
     - libtool
     - make
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
   host:
     - gettext
