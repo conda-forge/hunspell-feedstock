@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: "1.7.3"
+  build_number: 0
+  # well-known upstream path
+  dict_path: share/hunspell
+  # legacy path for hunspell <1.7.3
+  legacy_path: share/hunspell_dictionaries
+  # smoke-testable binaries and scripts that return 0 for --help
+  bin_with_help: hunspell hunzip makealias
+  # binaries/scripts with no --help option, or that don't exit 0
+  bin_no_help: affixcompress analyze chmorph hzip ispellaff2myspell munch unmunch wordforms wordlist2hunspell
+  all_bin: ${{ bin_with_help }} ${{ bin_no_help }}
+  # explicit test language to avoid locale detection for en_US (or whatever)
+  test_lang: en_CF
+  hunspell_d: hunspell -D -d ${{ test_lang }}
+
+package:
+  name: hunspell
+  version: ${{ version }}
+
+source:
+  url: https://github.com/hunspell/hunspell/archive/v${{ version }}.tar.gz
+  sha256: 933be3dac6fd55f6e752331a170efb7e33800e40fae1156d8434cc8c85379a1b
+
+build:
+  number: ${{ build_number }}
+  skip: win
+  script:
+    # delete, and skip discovery of, broken osx tests
+    - if: osx
+      then:
+        - cd tests
+        # some libtool issue
+        - rm gh646.*
+        - grep -v 'gh646' Makefile.am > Makefile.am-osx
+        - mv Makefile.am-osx Makefile.am
+        - cat Makefile.am
+        - cd ..
+    - autoreconf -vfi
+    - ./configure "--prefix=${{ PREFIX }}" --with-readline --with-ui
+    - make "-j${CPU_COUNT}"
+    - if: host_platform == target_platform
+      then:
+        - make check || (cat tests/test-suite.log && exit 1)
+    - make install
+    - mkdir -p "${{ PREFIX }}/${{ dict_path }}"
+    # rattler-build doesn't ship empty directories: https://github.com/prefix-dev/rattler-build/issues/371
+    - echo "" >> "${{ PREFIX }}/${{ dict_path }}/.empty"
+    # legacy path symlink
+    - ln -s "${{ PREFIX }}/${{ dict_path }}" "${{ PREFIX }}/${{ legacy_path }}"
+    - ls "${{ PREFIX }}/${{ legacy_path }}/.empty"
+
+requirements:
+  build:
+    - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
+    - ${{ stdlib("c") }}
+    - autoconf
+    - automake
+    - gettext
+    - libtool
+    - make
+    - pkg-config
+  host:
+    - libiconv
+    - ncurses
+    - readline
+
+tests:
+  - package_contents:
+      bin:
+        - ${{ "{" ~ (all_bin | split | sort | join(',')) ~ "}" }}
+  - script:
+      content:
+        # build a test dictionary
+        - cd "${CONDA_PREFIX}/${{ dict_path }}"
+        - echo "ok" > test.words
+        - wordlist2hunspell test.words "${{ test_lang }}"
+        - rm test.words
+        - cd "${SRC_DIR}"
+        # check basic commands that exit with 0
+        - ${{ bin_with_help | split | join(' --help || exit 1; ') }} --help || exit 1;
+        # check versions
+        - hunspell --version
+        - hunspell --version | grep -iEo "\(but really Hunspell ${{ version | replace(".", "\\.") }}\)"
+        # check discovery
+        - ${{ hunspell_d }}
+        - ${{ hunspell_d }} 2>&1 | grep -iEo "^\.::${CONDA_PREFIX}/${{ dict_path }}:"
+        - ${{ hunspell_d }} 2>&1 | grep -iEo "${CONDA_PREFIX}/${{ dict_path }}/${{ test_lang }}.dic"
+        - ${{ hunspell_d }} 2>&1 | grep -iEo "${CONDA_PREFIX}/${{ dict_path }}/${{ test_lang }}.aff"
+        # check symlink
+        - ls "${CONDA_PREFIX}/${{ legacy_path }}/${{ test_lang }}.dic"
+
+about:
+  license: MPL-1.1 OR GPL-2.0-or-later OR LGPL-2.1-or-later
+  license_file:
+    - COPYING
+    - COPYING.LESSER
+    - COPYING.MPL
+  summary: The most popular spellchecking library.
+  description: |
+    Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird,
+    Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign,
+    memoQ, Opera and SDL Trados.
+  homepage: http://hunspell.github.io
+  repository: https://github.com/hunspell/hunspell
+
+extra:
+  recipe-maintainers:
+    - scopatz
+    - asmeurer
+    - bollwyvl
