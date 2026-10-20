@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "1.7.3"
+  version: "1.7.5"
   build_number: 0
   # well-known upstream path
   dict_path: share/hunspell
@@ -23,7 +23,7 @@ package:
 
 source:
   url: https://github.com/hunspell/hunspell/archive/v${{ version }}.tar.gz
-  sha256: 933be3dac6fd55f6e752331a170efb7e33800e40fae1156d8434cc8c85379a1b
+  sha256: 833ee0cb129f7b933def265ea907f9ba4d0cfc5b52d838678eafceeec1adaa53
 
 build:
   number: ${{ build_number }}
