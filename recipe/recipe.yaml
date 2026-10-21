@@ -24,6 +24,8 @@ package:
 source:
   url: https://github.com/hunspell/hunspell/archive/v${{ version }}.tar.gz
   sha256: 833ee0cb129f7b933def265ea907f9ba4d0cfc5b52d838678eafceeec1adaa53
+  patches:
+    - 0000-force-cf-dicpath.patch
 
 build:
   number: ${{ build_number }}
@@ -44,7 +46,7 @@ build:
     - make "-j${CPU_COUNT}"
     - if: host_platform == target_platform
       then:
-        - make check || (cat tests/test-suite.log && exit 1)
+        - make check "-j${CPU_COUNT}" || (cat tests/test-suite.log && exit 1)
     - make install
     - mkdir -p "${{ PREFIX }}/${{ dict_path }}"
     # rattler-build doesn't ship empty directories: https://github.com/prefix-dev/rattler-build/issues/371
@@ -71,8 +73,17 @@ requirements:
 
 tests:
   - package_contents:
+      strict: true
       bin:
         - ${{ "{" ~ (all_bin | split | sort | join(',')) ~ "}" }}
+      files:
+        - ${{ dict_path }}/.empty
+        - ${{ legacy_path }}
+        - include/hunspell/*
+        - lib/libhunspell-*
+        - lib/pkgconfig/hunspell.pc
+        - share/man/hu/man1/hunspell.1
+        - share/man/man*/{hunspell,hunzip,hzip,hunspell}.*
   - script:
       content:
         # build a test dictionary
