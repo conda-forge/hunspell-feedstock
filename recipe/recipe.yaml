@@ -82,7 +82,7 @@ tests:
         - include/hunspell/*
         - lib/libhunspell-*
         - lib/pkgconfig/hunspell.pc
-        - share/man/hu/man1/hunspell.1
+        - share/man/hu/man*/hunspell.*
         - share/man/man*/{hunspell,hunzip,hzip,hunspell}.*
   - script:
       content:

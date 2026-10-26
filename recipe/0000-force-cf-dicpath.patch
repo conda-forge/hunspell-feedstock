@@ -1,20 +1,20 @@
 diff --git a/src/tools/hunspell.cxx b/src/tools/hunspell.cxx
-index 992afec..b1ca438 100644
+index 79e7198..8f34c39 100644
 --- a/src/tools/hunspell.cxx
 +++ b/src/tools/hunspell.cxx
-@@ -2217,6 +2217,7 @@ int main(int argc, char** argv) {
+@@ -2253,6 +2253,7 @@ int main(int argc, char** argv) {
      if (getenv("DICPATH")) {
        add_dirs(getenv("DICPATH"), "");
      }
 +    add_dirs(LIBDIR, "");
- #ifndef WIN32
+ #ifndef _WIN32
      // XDG Base Directory Specification: relative entries are invalid, and an unset or empty
      // variable means its default, ~/.local/share or /usr/local/share:/usr/share
-@@ -2229,7 +2230,6 @@ int main(int argc, char** argv) {
+@@ -2265,7 +2266,6 @@ int main(int argc, char** argv) {
      add_dirs(xdg_data_dirs && *xdg_data_dirs ? xdg_data_dirs : "/usr/local/share:/usr/share",
               "/hunspell", true);
  #endif
 -    add_dirs(LIBDIR, "");
-     if (HOME) {
-       const char * userooodir[] = USEROOODIR;
-       for (auto& i : userooodir) {
+ #ifdef _WIN32
+     std::string datadir = exe_datadir();
+     if (!datadir.empty())
